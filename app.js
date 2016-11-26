@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 app.post('/update', function(req, res) {
     console.log('body --> ', req.body);
 
-    var child = exec(`cd ${projectPath} && git pull origin release`, function(err, res) {
+    var child = exec(`cd ${projectPath} && git pull origin release`, function(err, execution) {
         if (err) return res.status(500).send();
         res.send('OK');
     });
