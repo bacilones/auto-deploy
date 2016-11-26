@@ -12,15 +12,16 @@ console.log('port --> ', port);
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.post('/update', function(req, res) {
-    console.log('body --> ', req.body);
-
-    var child = exec(`cd ${projectPath} && git pull origin release`, function(err, execution) {
-        if (err) return res.status(500).send();
-        res.send('OK');
-    });
+    if (req.body.ref === 'refs/heads/release') {
+        console.log('Updating repo ... !');
+        var child = exec(`cd ${projectPath} && git pull origin release`, function(err, execution) {
+            if (err) return res.status(500).send();
+        });
+    }
+    res.send('OK');
 });
 
 app.listen(port, function () {
